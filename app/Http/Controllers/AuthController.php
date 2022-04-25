@@ -35,7 +35,7 @@ class AuthController extends Controller
             $token = $user->createToken($user->email)->plainTextToken;
             $response = [
                 'status'=>1,
-                'message'=>"authenticated successfully",
+                'message'=>"register successfully",
                 'data'=>$token,
             ];
             return response()->json($response);
@@ -45,6 +45,25 @@ class AuthController extends Controller
             'message'=>"unauthenticated"
         ];
         return response()->json($response);
+    }
+    public function login(Request $request)
+    {
+        $validator = validator()->make($request->all(), [
+            'email' => 'email|required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([0, $validator->errors()->first(), $validator->errors()]);
+        }
+        $user = User::where('email', $request->email)->first();
+        if(auth()->validate($request->all())) {
+            $token = $user->createToken($request->email)->plainTextToken;
+            return response()->json([1, 'login successfully', [
+                'user' => $user,
+                'token' => $token
+            ]]);
+        } 
+        return response()->json(['0', 'unauthenticated']);
     }
 }
   
