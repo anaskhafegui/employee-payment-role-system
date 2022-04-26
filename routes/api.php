@@ -26,7 +26,7 @@ Route::prefix('admin')->group(function () {
         });
         Route::post('logout',  [AuthController::class, 'logout']);
         Route::post('changeBounsPercentage/{employee}',  [MainApisController::class, 'changeBounsPercentage']);
-        
+
         Route::get('getAllPayments',  [MainApisController::class, 'getAllPayments']);
 
     });
