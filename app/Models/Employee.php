@@ -14,6 +14,7 @@ class Employee extends Model
      * @var array
      */
     protected $fillable = ['name','salary','bouns_percentages'];
+    protected $hidden = ['id','created_at'];
     protected $table = 'employees';
     
 }
