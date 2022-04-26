@@ -4,7 +4,6 @@ namespace App\Classes;
 use DB;
 use Carbon\carbon;
 
-
 class PaymentDate
 {
     public $employees;
@@ -14,16 +13,16 @@ class PaymentDate
        $this->currentMonth = Carbon::now();
     }
 
-    public function getAllPayments($month,$employees)
+    public function getAllPayments($month)
     {
-        $this->employees = $employees;
-        $Salaries_total = (float)$this->employees->Salaries_total;
-        $Bonus_total = (float)$this->employees->Bonus_total;
+        $employees = DB::table('employees')->select(DB::raw('sum(salary) as Salaries_total ,sum(bouns_percentages*salary) as Bonus_total'))->first();
+        $Salaries_total = (float)$employees->Salaries_total;
+        $Bonus_total = (float)$employees->Bonus_total;
         $list = [];
         $index = $this->currentMonth->format('M');
 
         do {
-            $list [$index]["month"]               = $this->currentMonth->format('M');
+            $list[$index]["month"]                = $this->currentMonth->format('M');
             $list[$index]["Salaries_payment_day"] = $this->getSalaryPaymentDay($this->currentMonth);
             $list[$index]["Bouns_payment_day"]    = $this->getBounsPaymentDay($this->currentMonth);   
             //initialize month to be from start object passed by reference

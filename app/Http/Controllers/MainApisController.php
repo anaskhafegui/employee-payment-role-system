@@ -22,12 +22,7 @@ class MainApisController extends Controller
     }
 
     public function getAllPayments(Request $request) {
-
-        $employees = DB::table('employees')
-        ->select(DB::raw('sum(salary) as Salaries_total ,sum(bouns_percentages*salary) as Bonus_total'))
-        ->first();        
-        
         $remainderdates = new PaymentDate(); 
-        return $remainderdates->getAllPayments($request->month,$employees);
+        return $remainderdates->getAllPayments($request->month);
     }
 }
