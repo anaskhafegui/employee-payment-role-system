@@ -4,6 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Classes\PaymentDate;
+use Illuminate\Support\Facades\Log;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -14,8 +17,11 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {
-        // $schedule->command('inspire')->hourly();
+    { 
+        $remainderdates = new PaymentDate(); 
+        $schedule->command('salaryreminder:cron')->monthlyOn($remainderdates->getReminderDateTwoDaysBeforeSalaryPayment(), '00:00');
+        //$schedule->command('salaryreminder:cron')->everyMinute();
+        $schedule->command('bounsreminder:cron')->monthlyOn($remainderdates->getReminderDateTwoDaysBeforeBounsPayment(), '00:00');
     }
 
     /**

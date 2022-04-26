@@ -10,13 +10,13 @@ class PaymentDate
     public $employees;
     public $currentMonth;
 
-    public function __construct($employees) {
-       $this->employees    = $employees;
-       $this->currentMonth =  Carbon::now();
+    public function __construct() {
+       $this->currentMonth = Carbon::now();
     }
 
-    public function getAllPayments($month)
+    public function getAllPayments($month,$employees)
     {
+        $this->employees = $employees;
         $Salaries_total = (float)$this->employees->Salaries_total;
         $Bonus_total = (float)$this->employees->Bonus_total;
         $list = [];
@@ -28,8 +28,8 @@ class PaymentDate
             $list[$index]["Bouns_payment_day"]    = $this->getBounsPaymentDay($this->currentMonth);   
             //initialize month to be from start object passed by reference
             $this->currentMonth->startOfMonth();
-            $list [$index]["paymentsReminderDateSalary"] = $this->getReminderDateTwoDaysBeforeSalaryPayment($this->currentMonth);
-            $list [$index]["paymentsReminderDateBouns"]  = $this->getReminderDateTwoDaysBeforeBounsPayment($this->currentMonth);
+           /*  $list [$index]["paymentsReminderDateSalary"] = $this->getReminderDateTwoDaysBeforeSalaryPayment();
+            $list [$index]["paymentsReminderDateBouns"]  = $this->getReminderDateTwoDaysBeforeBounsPayment(); */
             //interate next monthes 
             $this->currentMonth->addMonths(1)->format('M');
             $list [$index]["Salaries_total"] = $Salaries_total;
@@ -45,7 +45,10 @@ class PaymentDate
         }
         return $list;
     }
-
+    public static function getCurrentMonth()
+    {
+        return $this->currentMonth;
+    }
     private function getSalaryPaymentDay($month)
     {
         if($month->endOfMonth()->format('D') == "Fri"){ 
@@ -65,14 +68,13 @@ class PaymentDate
         }
         else return (int)$month->startOfMonth()->addDay(14)->format('d');
     }
-    private function getReminderDateTwoDaysBeforeSalaryPayment($month)
-    {
-        return $this->getSalaryPaymentDay($month) - 2;
+    public  function getReminderDateTwoDaysBeforeSalaryPayment()
+    { 
+       return $this->getSalaryPaymentDay($this->currentMonth) - 2;
     }
-    private function getReminderDateTwoDaysBeforeBounsPayment($month)
+    public  function getReminderDateTwoDaysBeforeBounsPayment()
     {
-        return $this->getBounsPaymentDay($month) - 2;
-    }
+        return $this->getBounsPaymentDay($this->currentMonth) - 2;
+    } 
     
-
 }

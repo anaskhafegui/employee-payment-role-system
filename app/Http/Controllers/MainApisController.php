@@ -26,8 +26,8 @@ class MainApisController extends Controller
         $employees = DB::table('employees')
         ->select(DB::raw('sum(salary) as Salaries_total ,sum(bouns_percentages*salary) as Bonus_total'))
         ->first();        
-
-        $remainderdates = new PaymentDate($employees);
-        return $remainderdates->getAllPayments($request->month);
+        
+        $remainderdates = new PaymentDate(); 
+        return $remainderdates->getAllPayments($request->month,$employees);
     }
 }
