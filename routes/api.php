@@ -22,11 +22,12 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', function (Request $request) {
-        return $request->user();
+             return $request->user();
         });
         Route::post('logout',  [AuthController::class, 'logout']);
+        Route::post('changeBounsPercentage/{employee}',  [MainApisController::class, 'changeBounsPercentage']);
         
-        Route::post('change-bouns-percentage/{employee}',  [MainApisController::class, 'changebounspercentage']);
+        Route::get('getAllPayments',  [MainApisController::class, 'getAllPayments']);
 
     });
 });
