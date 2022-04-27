@@ -51,8 +51,8 @@ class MainApiTest extends TestCase
        ];
 
        $this->json('GET', 'api/admin/getAllPayments', $payload, $headers)
-           ->assertStatus(200)
-           ->assertJson($remainderdates);
+            ->assertStatus(200)
+            ->assertJson($remainderdates);
     }
     public function test_the_admin_can_get_payments_dates_for_the_remainder_of_this_year_with_filter()
     {
@@ -67,8 +67,8 @@ class MainApiTest extends TestCase
        ];
 
        $this->json('GET', 'api/admin/getAllPayments', $payload, $headers)
-           ->assertStatus(200)
-           ->assertJson($remainderdates);
+            ->assertStatus(200)
+            ->assertJson($remainderdates);
     }
   
 }

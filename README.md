@@ -1,64 +1,184 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Employee
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is an Employee system to help a company determine the dates they need to pay salaries to their departments.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* PHP version:- 8.1.5
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* Laravel version:- 9.0
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Run the app in your machine: -
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* clone the project and setup the env file
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
 
-## Laravel Sponsors
+##Mac Os, Ubuntu and windows users continue here:
+* Create a database locally named `root` utf8_general_ci 
+* Download composer https://getcomposer.org/download/
+* Pull Laravel/php project from git provider.
+* Rename .env.example file to .env inside your project root and fill the database information.
+  (windows wont let you do it, so you have to open your console cd your project root directory and run `mv .env.example .env` )
+* Open the console and cd your project root directory
+* Run composer install or php composer.phar install
+* Run php artisan key:generate
+* Run php artisan migrate
+* Run php artisan serve
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## How to run the test suite
 
-## Contributing
+```bash
+./vendor/bin/phpunit
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+## Endpoints
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* GET Requests
 
-## Security Vulnerabilities
+```url
+/getAllPayments
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* POST Requests
 
-## License
+```url
+/changeBonusPercentage/{id}
+/register
+/login
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Endpoints
+
+### Default Path
+
+```url
+/api/admin/
+```
+
+#### GET /getAllPayments
+
+Get all payments in all monthes, they can be filtered using month parameters
+
+##### paramaters
+
+month
+
+##### Sample response
+
+```json
+[
+    "Apr": {
+        "month": "Apr",
+        "Salaries_payment_day": 28,
+        "Bouns_payment_day": 21,
+        "Salaries_total": 2000,
+        "Bonus_total": 600,
+        "Payments_total": 2600
+    },
+    "May": {
+        "month": "May",
+        "Salaries_payment_day": 31,
+        "Bouns_payment_day": 15,
+        "Salaries_total": 2000,
+        "Bonus_total": 600,
+        "Payments_total": 2600
+    },
+]
+```
+
+### POST Endpoints
+
+#### POST /changeBonusPercentage/{id}
+
+Change bonus percentage for employee
+
+##### Sample body request (required)
+
+```json
+
+{
+    "percentages": 0.2,
+}
+```
+
+##### Sample response
+
+```json
+
+{
+    "status": 1,
+    "message": "bouns percentages changed successfully",
+    "data": {
+        "name": "anas",
+        "salary": "1000.00",
+        "bouns_percentages": "0.2",
+        "updated_at": "2022-04-27T00:06:25.000000Z"
+    }
+}
+```
+
+#### POST /register
+
+Register new admin
+
+##### Sample body request (required)
+
+```json
+
+{
+    "name": "TestAdmin",
+    "email": "admin2@test.com",
+    "password": "12333",
+    "password_confirmation": "12333",
+}
+```
+
+##### Sample response
+
+```json
+
+{
+    "status": 1,
+    "message": "register successfully",
+    "data": "secrest_token"
+}
+```
+#### POST /login
+
+Admin login
+
+##### Sample body request (required)
+
+```json
+
+{
+    "email": "Hello@test.com", 
+    "password": "Hello", 
+}
+```
+
+##### Sample response
+
+```json
+
+{
+    "status": 1,
+    "message": "Login successfully",
+    "data": {
+        "user": {
+            "id": 2,
+            "name": "anas",
+            "email": "admin@gmail.com",
+            "email_verified_at": null,
+            "created_at": "2022-04-25T19:11:30.000000Z",
+            "updated_at": "2022-04-25T19:11:30.000000Z"
+        },
+        "token": "10|9xu5lwzEdHOYDDhtmYBVwdjYQfqjwouRuk2rq7yw"
+    }
+}
+```
