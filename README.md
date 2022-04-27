@@ -34,6 +34,11 @@ This is an Employee system to help a company determine the dates they need to pa
 ```bash
 ./vendor/bin/phpunit
 ```
+## How to check schedule payment reminder mail
+
+```bash
+php artisan schedule:test
+```
 
 
 ## Endpoints
