@@ -36,12 +36,15 @@ class AuthController extends Controller
             $response = [
                 'status'=>1,
                 'message'=>"register successfully",
-                'data'=>$token,
+                'data'=>[
+                    'user' => $user,
+                    'token' => $token
+                ]
             ];
             return response()->json($response);
         } 
         $response = [
-            'status'=>1,
+            'status'=>0,
             'message'=>"unauthenticated"
         ];
         return response()->json($response);
@@ -58,10 +61,13 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if(auth()->validate($request->all())) {
             $token = $user->createToken($request->email)->plainTextToken;
-            return response()->json([1, 'login successfully', [
-                'user' => $user,
-                'token' => $token
-            ]]);
+            $response = [
+                'status'=>1,
+                'message'=>"login successfully",
+                'data'=>[ 
+                    'user' => $user,'token' => $token ]
+            ];
+            return response()->json($response);
         } 
         return response()->json(['0', 'unauthenticated']);
     }
